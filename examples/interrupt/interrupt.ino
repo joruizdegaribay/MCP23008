@@ -8,8 +8,8 @@ unsigned char iovalues[8];
 
 void setup() {
 
-  pinMode(7, INPUT_PULLUP);
-  attachInterrupt(digitalPinToInterrupt(7), button, FALLING);
+  pinMode(0, INPUT_PULLUP);
+  attachInterrupt(digitalPinToInterrupt(0), button, FALLING);
   pinMode(13, OUTPUT);
 
   mcp.begin(0x20);
