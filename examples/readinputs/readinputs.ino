@@ -20,7 +20,7 @@ void loop() {
 
   mcp.read(iovalues);
 
-  for (int i = 7; i >= 0; i--){
+  for (int i = 0; i < 7; i++){
     Serial.print(iovalues[i]);
   }
   Serial.println();
