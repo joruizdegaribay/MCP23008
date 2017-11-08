@@ -3,7 +3,7 @@
 
 MCP23008 mcp;
 
-unsigned char iodir[8] = {INPUT_PULLUP, OUTPUT, INPUT, INPUT, INPUT, INPUT, INPUT, INPUT};
+unsigned char iodir[8] = {INPUT, OUTPUT, INPUT, INPUT, INPUT, INPUT, INPUT, INPUT};
 unsigned char iovalues[8];
 
 void setup() {
