@@ -29,9 +29,13 @@ class MCP23008 {
 
 	public:
 		void begin(uint8_t addr);
-		void pinMode(uint8_t mode[8]);
-		void read(uint8_t values[8]);
-		void write(uint8_t values[8]);
+		void pinMode(uint8_t mode);
+		void pinMode(uint8_t pin, uint8_t mode);
+		void setPullup(uint8_t pullup);
+		uint8_t read();
+		uint8_t read(uint8_t pin);
+		void write(uint8_t values);
+		void write(uint8_t pin, uint8_t value);
 		void enableInterrupt(uint8_t pin, uint8_t mode);
 		void disableInterrupt(uint8_t pin);
 

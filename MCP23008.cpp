@@ -28,39 +28,57 @@ void MCP23008::begin(uint8_t address) {
 	Wire.endTransmission();
 }
 
-void MCP23008::pinMode(byte mode[8]) {
+void MCP23008::pinMode(uint8_t mode) {
 	
-	uint8_t iodir = 0x00, gppu = 0x00;
-	for (int pin = 0; pin < 8; pin++){
-		// set the pin and direction
-		if (mode[pin] != OUTPUT)
-			bitSet(iodir, pin);
-		// set the pullup
-		if (mode[pin] == INPUT_PULLUP)
-			bitSet(gppu, pin);
+	// write the new IODIR
+	_write(MCP23008_IODIR, mode);
+}
+
+void MCP23008::pinMode(uint8_t pin, uint8_t mode) {
+	
+	uint8_t iodir = _read(MCP23008_IODIR);
+	if (mode == OUTPUT)
+		bitWrite(iodir, pin, 0);
+	else{
+		bitWrite(iodir, pin, 1);
+		uint8_t pullup = _read(MCP23008_GPPU);
+		if (mode == INPUT_PULLUP)
+			bitWrite(pullup, pin, 1);
+		else
+			bitWrite(pullup, pin, 0);
+		_write(MCP23008_GPPU, pullup);
 	}
 	// write the new IODIR
 	_write(MCP23008_IODIR, iodir);
-	// write pullup values
-	_write(MCP23008_GPPU, gppu);
 }
 
-void MCP23008::read(byte values[8]){
+void MCP23008::setPullup(uint8_t pullup) {
+	
+	// write pullup values
+	_write(MCP23008_GPPU, pullup);
+}
+
+uint8_t MCP23008::read(){
+
+	return _read(MCP23008_GPIO);
+}
+
+uint8_t MCP23008::read(uint8_t pin){
+	
+	uint8_t gpio = _read(MCP23008_GPIO);
+	return bitRead(gpio, pin);
+}
+
+void MCP23008::write(uint8_t values){
+
+	_write(MCP23008_GPIO, values);
+}
+
+void MCP23008::write(uint8_t pin, uint8_t value){
 
 	uint8_t gpio = _read(MCP23008_GPIO);
-	for (int pin = 0; pin < 8; pin++){
-		values[pin] = bitRead(gpio, pin);
-	}
-}
-
-void MCP23008::write(byte values[8]){
-
-	uint8_t gpio;
-	for (int pin = 0; pin < 8; pin++){
-		bitWrite(gpio, pin, values[pin]);
-	}
+	bitWrite(gpio, pin, value);
 	_write(MCP23008_GPIO, gpio);
-
 }
 
 void MCP23008::enableInterrupt(uint8_t pin, uint8_t mode){

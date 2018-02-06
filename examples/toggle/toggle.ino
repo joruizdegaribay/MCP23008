@@ -3,13 +3,10 @@
 
 MCP23008 mcp;
 
-unsigned char iodir[8] = {OUTPUT, INPUT, INPUT, INPUT, INPUT, INPUT, INPUT, INPUT};
-unsigned char iovalues[8];
-  
 void setup() {  
 
-  mcp.begin(0x20);      // use default address 0x20
-  mcp.pinMode(iodir);
+  mcp.begin(0x27);      // use default address 0x20
+  mcp.pinMode(6, OUTPUT);
 }
 
 
@@ -17,10 +14,8 @@ void setup() {
 
 void loop() {
 
-  iovalues[0] = HIGH;
-  mcp.write(iovalues);
+  mcp.write(6, HIGH);
   delay(1000);
-  iovalues[0] = LOW;
-  mcp.write(iovalues);
+  mcp.write(6, LOW);
   delay(1000);
 }

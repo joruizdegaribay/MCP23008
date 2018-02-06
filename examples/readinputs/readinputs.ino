@@ -2,27 +2,19 @@
 #include "MCP23008.h"
 
 MCP23008 mcp;
-
-unsigned char iodir[8] = {INPUT, INPUT, INPUT, INPUT, INPUT, INPUT, INPUT, INPUT};
-unsigned char iovalues[8];
   
 void setup() {  
 
   Serial.begin(9600);
   
-  mcp.begin(0x20);
-
-  mcp.pinMode(iodir);
-
+  mcp.begin(0x27);
+  mcp.pinMode(0xFF);
+  mcp.setPullup(0x0F);
 }
 
 void loop() {
 
-  mcp.read(iovalues);
-
-  for (int i = 0; i < 8; i++){
-    Serial.print(iovalues[i]);
-  }
-  Serial.println();
+  unsigned char iovalues = mcp.read();
+  Serial.println(iovalues, BIN);
   delay(100);
 }

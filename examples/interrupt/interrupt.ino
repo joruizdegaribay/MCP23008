@@ -3,27 +3,25 @@
 
 MCP23008 mcp;
 
-unsigned char iodir[8] = {INPUT, OUTPUT, INPUT, INPUT, INPUT, INPUT, INPUT, INPUT};
-unsigned char iovalues[8];
-
 void setup() {
 
   pinMode(0, INPUT_PULLUP);
   attachInterrupt(digitalPinToInterrupt(0), button, FALLING);
   pinMode(13, OUTPUT);
 
-  mcp.begin(0x20);
-  mcp.pinMode(iodir);
+  mcp.begin(0x27);
+  mcp.pinMode(6, OUTPUT);
+  mcp.pinMode(3, INPUT_PULLUP);
   mcp.enableInterrupt(0, FALLING);
 }
 
 void loop() {
 
-  mcp.read(iovalues);
-  if (iovalues[1] == LOW)
-    iovalues[1] = HIGH;
+  unsigned char iovalues = mcp.read();
+  if (bitRead(iovalues, 6) == LOW)
+    bitWrite(iovalues, 6, HIGH);
   else
-    iovalues[1] = LOW;
+    bitWrite(iovalues, 6, LOW);
   mcp.write(iovalues);
   delay(1000);
 }
