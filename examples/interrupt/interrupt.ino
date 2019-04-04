@@ -22,13 +22,13 @@ void setup() {
   mcp.begin(0x20);
   mcp.pinMode(6, OUTPUT);
   mcp.pinMode(3, INPUT_PULLUP);
-  mcp.enableInterrupt(0, FALLING);
+  mcp.enableInterrupt(3, FALLING);
 }
 
 void loop() {
 
   // when the MCP23008 interrupt pin state is 1
-  if (digitalRead(0) == HIGH) {
+  if (digitalRead(0) == LOW) {
     // read MCP23008 pin values
     unsigned char iovalues = mcp.read();
     // and toogle pin 6 state
