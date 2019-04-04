@@ -1,22 +1,33 @@
+/* 
+ * button.ino
+ * 
+ * This example read the state of pin 3 (configurated as input pin 
+ * with pull-up resistor) and copies its state in the LED_BUILTIN 
+ * of the Arduino board.
+ * 
+ * Created by Jonathan Ruiz de Garibay
+ */
+ 
 #include <Wire.h>
 #include "MCP23008.h"
 
 MCP23008 mcp;
-  
-void setup() {  
 
-  mcp.begin(0x27);
+void setup() {
 
+  // configure MCP23008 component
+  mcp.begin(0x20);
   mcp.pinMode(3, INPUT_PULLUP);
-  
-  pinMode(13, OUTPUT);  // use the p13 LED as debugging
+
+  // configure Arduino LED_BUILTIN
+  pinMode(LED_BUILTIN, OUTPUT);  // use the p13 LED as debugging
 }
 
 void loop() {
 
+  // read MCP23008 pin 3 state
   unsigned char value = mcp.read(3);
 
-  // The LED will 'echo' the button
-  
-  digitalWrite(13, value);
+  // and copy in LED_BUILTIN pin
+  digitalWrite(LED_BUILTIN, value);
 }
